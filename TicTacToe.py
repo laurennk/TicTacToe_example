@@ -27,12 +27,25 @@ def init_board():
     return new_board
 
 
-def take_turn(current_character, board):
+def take_turn(player, current_character, board):
 
-    move = input(current_character + ", where would you like to go? ")
+    move = None
 
-    while not valid_move(int(move), board):
+    if player == 'r':
+        move = computer_random(board)
+
+    elif player == 'f':
+        move = computer_first(board)
+
+    elif player == 'h':
         move = input(current_character + ", where would you like to go? ")
+
+        while not valid_move(int(move), board):
+            move = input(current_character + ", where would you like to go? ")
+
+    else:
+        print("Idk how you got an invalid player type...weird...")
+        exit(0)
 
     update_board(current_character, int(move), board)
 
@@ -127,8 +140,30 @@ def switch_character(character):
         exit(0)
 
 
+def computer_random(board):
+    empties = np.where(board == ' ')
+
+    possible_moves = 3*empties[0] + empties[1]
+
+    move = random.choice(possible_moves)
+
+    print("Computer has chosen ", move)
+
+    return move
+
+
+def computer_first(board):
+    empties = np.where(board == ' ')
+
+    possible_moves = 3*empties[0] + empties[1]
+
+    print("Computer has chosen ", possible_moves[0])
+
+    return possible_moves[0]
+
+
 def play_game():
-    print("Starting")
+    print("The board spaces are numbered as follows: ")
 
     board_options = np.array([['0', '1', '2'],
                               ['3', '4', '5'],
@@ -136,14 +171,40 @@ def play_game():
 
     print_board(board_options)
 
-    board = init_board()
+    print("\nThe game options are as follows: ")
+    print("\t[1]\t Human vs Human")
+    print("\t[2]\t Human vs Random Computer")
+    print("\t[3]\t Human vs First Move Computer")
+    print("\t[4]\t Random Computer vs First Move Computer")
 
-    win = False
+    while True:
+        game_option = int(input("Which game option would you like to play? "))
+
+        if game_option == 1:
+            player_type = ['h', 'h']
+            break
+        elif game_option == 2:
+            player_type = ['h', 'r']
+            break
+        elif game_option == 3:
+            player_type = ['h', 'f']
+            break
+        elif game_option == 4:
+            player_type = ['r', 'f']
+            break
+        else:
+            print("Invalid option selected.")
+            continue
+
+    board = init_board()
 
     character = determine_start()
 
-    while not win:
-        take_turn(character, board)
+    play = True
+
+    while play:
+        take_turn(player_type[0], character, board)
+
         print_board(board)
 
         if check_win(character, board):
@@ -156,10 +217,11 @@ def play_game():
 
             elif (again == 'N') or (again == 'n'):
                 print("Thanks for playing!")
-                exit(0)
+                play = False
 
         character = switch_character(character)
 
+        player_type = player_type[::-1]
 
 if __name__ == "__main__":
     play_game()
