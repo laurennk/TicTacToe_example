@@ -5,9 +5,9 @@ import random
 def play_game():
     print("Let's play TicTacToe!")
 
-    board_options = np.array([['0', '1', '2'],
-                              ['3', '4', '5'],
-                              ['6', '7', '8']])
+    board_options = np.array([['a', 'b', 'c'],
+                              ['f', 'e', 'd'],
+                              ['g', 'h', 'i']])
 
     print_board(board_options)
 
