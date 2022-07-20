@@ -9,6 +9,7 @@ def play_game():
                               ['f', 'e', 'd'],
                               ['g', 'h', 'i']])
 
+
     print_board(board_options)
 
     board = init_board()
