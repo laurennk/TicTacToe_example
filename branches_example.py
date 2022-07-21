@@ -1,6 +1,7 @@
 def main():
-    print("hi erika!")
 
+    print("hi erika!")
+    print("hi andy")
 
 
 
