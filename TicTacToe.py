@@ -84,6 +84,9 @@ def check_win(character, board):
     if win == False:
         win = check_diagonals(board)
         print("Diag", win)
+    if ' ' not in board:
+        print("It's a tie! No one has won!")
+        return True
 
     print(win)
     return win
@@ -115,7 +118,7 @@ def check_diagonals(board):
     print("Checking diagonals")
     if board[1][1] == " ":
         return False
-    elif (board[0][0] == board[1][1]) and (board[1][1] == board[2][1]):
+    elif (board[0][0] == board[1][1]) and (board[1][1] == board[2][2]):
         return True
     elif (board[0][2] == board[1][1]) and (board[1][1] == board[2][0]):
         return True
